@@ -1,30 +1,40 @@
-function onEdit(e){
+function onEdit(e) {
+
+  Logger.log("Function onEdit() called in autosort script");
+
   var sheet = e.source.getActiveSheet();
+  Logger.log("Active sheet: " + sheet.getName());
+
   var editedCell = sheet.getActiveCell();
-  var lastRow = sheet.getMaxRows();  // Dynamically ascertain height of sheet
-  var tableRange = "A2:Y" + lastRow; // What to sort; don't touch header row
+
+  var firstDataRow = 2;
+  var firstDataCol = 1;
+  var lastDataRow = sheet.getLastRow();  // Dynamically ascertain height of sheet
+  var lastDataCol = sheet.getLastColumn();  // Dynamically ascertain width of sheet
+  var dataRange = sheet.getRange(firstDataRow, firstDataCol, lastDataRow, lastDataCol); // Define range that excludes header row
+  Logger.log("Data range: " + dataRange.getA1Notation());
+
   var checkBoxRange = "A:A";         // checkBoxes are in first column
   var checkBoxValues = sheet.getRange(checkBoxRange).getValues();
   var numChecked = 0;
   
-
-  Logger.log("onEdit() called in autosort script");
  
-  Logger.log("sheet: " + sheet.getName());
-  var range = sheet.getRange(tableRange);
-  Logger.log("range: " + range.getA1Notation());
+
 
   if (checkBoxValues[0][0].toString().match('x')=='x') {
     // $A1 is 'x' so we are in shopping mode: sort by Aisle first (column 3)
     Logger.log("in shopping mode, sorting by Aisle first");
-    range.sort( [ { column : 1, ascending: true }, { column : 3, ascending : true }, { column : 2, ascending : true } ] );
+    dataRange.sort( [ { column : 1, ascending: true }, { column : 3, ascending : true }, { column : 2, ascending : true } ] );
   } else {
     // $A1 is not 'x' so we are in search mode: sort alphabetically
     Logger.log("in search mode, sorting alphabetically");
-    range.sort( [ { column : 1, ascending: true }, { column : 2, ascending : true } ] );
+    dataRange.sort( [ { column : 1, ascending: true }, { column : 2, ascending : true } ] );
   }
 
+  Logger.log("Now checking checkbox values");
+  
   for (n=0; n<checkBoxValues.length; ++n) {
+    Logger.log("checking row " + n);
     if (checkBoxValues[n][0].toString().match('x')=='x'){ 
       numChecked++;
     };
