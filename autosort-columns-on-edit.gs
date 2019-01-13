@@ -3,7 +3,11 @@ function onEdit(e) {
   Logger.log("Function onEdit() called in autosort script");
 
   var sheet = e.source.getActiveSheet();
-  Logger.log("Active sheet: " + sheet.getName());
+  var sheetName = sheet.getName();
+  Logger.log("Active sheet: " + sheetName);
+  if (sheetName == 'entries') {
+    return;
+  }
 
   var editedCell = sheet.getActiveCell();
 
@@ -37,7 +41,7 @@ function onEdit(e) {
   Logger.log("Now checking checkbox values");
   
   for (n=0; n<checkBoxValues.length; ++n) {
-    Logger.log("checking row " + n);
+    // Logger.log("checking row " + n);
     if (checkBoxValues[n][0].toString().match('x')=='x'){ 
       numChecked++;
     };
