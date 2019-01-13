@@ -21,12 +21,15 @@ function onEdit(e) {
  
 
 
-  if (checkBoxValues[0][0].toString().match('x')=='x') {
-    // $A1 is 'x' so we are in shopping mode: sort by Aisle first (column 3)
-    Logger.log("in shopping mode, sorting by Aisle first");
+  if (checkBoxValues[0][0].toString().match('c')=='c') {
+    // $A1 is 'c' so we are in shopping mode: sort by GIANT Aisle first (column 3)
+    Logger.log("in shopping mode, sorting by GIANT Aisle first");
     dataRange.sort( [ { column : 1, ascending: true }, { column : 3, ascending : true }, { column : 2, ascending : true } ] );
-  } else {
-    // $A1 is not 'x' so we are in search mode: sort alphabetically
+  } else if (checkBoxValues[0][0].toString().match('d')=='d') {
+    // $A1 is 'd' so we are in shopping mode: sort by ALDI Aisle first (column 4)
+    Logger.log("in shopping mode, sorting by ALDI Aisle first");
+    dataRange.sort( [ { column : 1, ascending: true }, { column : 4, ascending : true }, { column : 2, ascending : true } ] );
+  } else {    // $A1 is not 'x' so we are in search mode: sort alphabetically
     Logger.log("in search mode, sorting alphabetically");
     dataRange.sort( [ { column : 1, ascending: true }, { column : 2, ascending : true } ] );
   }
